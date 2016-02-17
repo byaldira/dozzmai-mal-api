@@ -37,16 +37,21 @@ namespace DozzMaiMalApi.Manager
             if (malClient.User.IsAuthenticated)
             {
                 // Get anime data as xml
-                var memStreamXML = ManagerUtility.GenerateXMLData(iMalEntity);
+                var xmlStrBuilder = ManagerUtility.GenerateXMLData(iMalEntity);
 
                 // If the user is authenicated
                 if (malClient.User.IsAuthenticated)
                 {
                     var anime = iMalEntity as DTOListAnime;
-                    string queryString = ManagerUtility.GenerateQueryString(anime.ID);
+                    string queryString = ManagerUtility.GenerateQueryString(anime.ID, xmlStrBuilder);
+                    byte[] strBytes = Encoding.UTF8.GetBytes(xmlStrBuilder.ToString().ToCharArray());   // Convert the data in string builder to char array
 
-                    // Upload data
-                    malClient.WebClient.UploadData(queryString, memStreamXML.ToArray());
+                    malClient.WebClient.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
+                    //malClient.WebClient.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
+                    //malClient.WebClient.Encoding = Encoding.UTF8;
+
+                    // Upload data : // CAUSES HTTP BAD REQUEST !! SHOULD BE CORRECTED!
+                    malClient.WebClient.UploadData(queryString, "POST", strBytes);
                 }
             }
         }
