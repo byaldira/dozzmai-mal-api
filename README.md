@@ -1,6 +1,9 @@
 # dozzmai-mal-api
 A basic (experimental) mal api for .net. It is planned to have methods and classes for user authentication, anime/manga queries and user anime/manga list management.
 
+# IMPORTANT NOTICE!!
+The project will be removed and recreated as a Portable Class Library for UWP (Universal Windows Platform).
+
 ## Intended Functions
 * Querying anime and manga data from myanimelist for any application type that could be developed using .NET framework
 * Give developers an API that can add/update/delete animes from a user's anime/manga list for easier project creation
