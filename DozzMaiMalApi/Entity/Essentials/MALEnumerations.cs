@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DozzMaiMalApi
+namespace DozzMaiMalApi.Entity.Essentials
 {
     public enum MALAninmeTypes
     {

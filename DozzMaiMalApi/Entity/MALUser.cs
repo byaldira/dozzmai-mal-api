@@ -6,7 +6,22 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DozzMaiMalApi
+
+/*
+    
+    UPDATES MADE:
+        
+        // Update Description \\    // Update Date \\   // Updater (Use github or mal user name) \\
+
+    -> File and class created code added    <-> 17.02.2016 : 00.12 +02.00 <-> Lolerji
+    -> New constructor                      <-> 17.02.2016 : 00.26 +02.00 <-> Lolerji
+    -> Authenyticate method is now public   <-> 17.02.2016 : 00.26 +02.00 <-> Lolerji
+    -> Setters added to UN/PW properties    <-> 17.02.2016 : 00.26 +02.00 <-> Lolerji
+
+*/
+
+
+namespace DozzMaiMalApi.Entity
 {
     public class MALUser
     {
@@ -79,7 +94,7 @@ namespace DozzMaiMalApi
             }
             catch (Exception ex)
             {
-                string msg = "Could not verify user: " + userName + ", Please make sure your credentials are correct";
+                string msg = "Could not verify user: " + userName + ", Please make sure your credentials are correct\nException: " + ex.Message;
                 throw new VerficationFailedException(msg);
             }
         }
@@ -116,6 +131,12 @@ namespace DozzMaiMalApi
         {
             get { return password; }
             set { password = value; }
+        }
+
+        public int? UserID
+        {
+            get { return userID; }
+            set { userID = value; }
         }
 
         #endregion

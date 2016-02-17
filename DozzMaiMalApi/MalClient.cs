@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DozzMaiMalApi.Entity;
+using DozzMaiMalApi.Manager;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,12 +9,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
+
+/*
+    
+    UPDATES MADE:
+        
+        // Update Description \\    // Update Date \\   // Updater (Use github or mal user name) \\
+
+    -> File and class created code added    <-> 17.02.2016 : 00.12 +02.00 <-> Lolerji
+    -> AnimeQuery method added              <-> 17.02.2016 : 00.26 +02.00 <-> Lolerji
+    -> GetAnimeEntry method added           <-> 17.02.2016 : 00.26 +02.00 <-> Lolerji
+    -> StringToQueryParameter method added  <-> 17.02.2016 : 00.26 +02.00 <-> Lolerji
+    -> AnimeListManager is added to client  <-> 17.02.2016 : 17.31 +02.00 <-> Lolerji
+
+*/
+
+
 namespace DozzMaiMalApi
 {
     public class MalClient
     {
         private readonly WebClient webClient;
         private MALUser user;
+        private AnimeListManager animeListManager;
 
         public MalClient()
         {
@@ -21,13 +40,19 @@ namespace DozzMaiMalApi
 
             // Initialize user
             user = new MALUser(webClient);
+
+            // Initialize managers
+            animeListManager = new AnimeListManager(this);
+            // MANGA LIST MANAGER WILL BE INITIALIZED HERE
         }
 
 
 
         #region Methods
 
-        #region -> Public Usage Methods
+        #region -> Public Usage Methods (Anime)
+
+
 
         public IEnumerable<MALAnime> AnimeQuery(string str)
         {
@@ -87,7 +112,7 @@ namespace DozzMaiMalApi
                 var c = item as XmlNode;
 
                 // DEBUG!!
-                Debug.WriteLine(c.Name + " : " + c.InnerXml);
+                //Debug.WriteLine(c.Name + " : " + c.InnerXml);
 
                 // Fill anime data by node name
                 switch (c.Name)
@@ -161,6 +186,16 @@ namespace DozzMaiMalApi
         public MALUser User
         {
             get { return user; }
+        }
+
+        public AnimeListManager AnimeListManager
+        {
+            get { return animeListManager; }
+        }
+
+        internal WebClient WebClient
+        {
+            get { return webClient; }
         }
 
         #endregion

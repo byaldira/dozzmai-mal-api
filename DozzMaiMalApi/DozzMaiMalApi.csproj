@@ -40,13 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MALAnime.cs" />
+    <Compile Include="Entity\DTO\DTOListAnime.cs" />
+    <Compile Include="Entity\Essentials\IMalListEntity.cs" />
+    <Compile Include="Entity\MALAnime.cs" />
     <Compile Include="MalClient.cs" />
-    <Compile Include="MALEnumerations.cs" />
-    <Compile Include="MALUser.cs" />
+    <Compile Include="Entity\Essentials\MALEnumerations.cs" />
+    <Compile Include="Entity\MALUser.cs" />
+    <Compile Include="Manager\AnimeListManager.cs" />
+    <Compile Include="Manager\IManager.cs" />
+    <Compile Include="Manager\ManagerUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VerficationFailedException.cs" />
+    <Compile Include="Exceptions\VerficationFailedException.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
