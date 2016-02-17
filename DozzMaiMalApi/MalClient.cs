@@ -29,7 +29,7 @@ namespace DozzMaiMalApi
 
         #region -> Public Usage Methods
 
-        public IQueryable<MALAnime> AnimeQuery(string str)
+        public IEnumerable<MALAnime> AnimeQuery(string str)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace DozzMaiMalApi
                 }
 
                 // Return the queryable animes object
-                return (IQueryable<MALAnime>)animeList;
+                return (IEnumerable<MALAnime>)animeList;
             }
             catch (Exception ex)
             {

@@ -112,7 +112,7 @@ namespace DozzMaiMalApi
         /// <summary>
         /// Get the password of the current user (Protected)
         /// </summary>
-        protected string Password
+        public string Password
         {
             get { return password; }
             set { password = value; }
