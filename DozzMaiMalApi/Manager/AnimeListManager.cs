@@ -7,6 +7,8 @@ using DozzMaiMalApi.Entity.Essentials;
 using DozzMaiMalApi.Entity.DTO;
 using System.Xml;
 using System.Net;
+using System.Net.Http;
+using System.IO;
 
 /*
     
@@ -15,6 +17,9 @@ using System.Net;
         // Update Description \\    // Update Date \\   // Updater (Use github or mal user name) \\
 
     -> File Created and Add method is ready for testing <-> 17.02.2016 : 17.43 +02.00 <-> Lolerji
+    -> Bugfix in AddAnime method! Method now fully      <-> 17.02.2016 : 17.52 +02.00 <-> Lolerji
+       fully functional... API Document is wrong!
+       use Http GET not Http POST!!!!!!!!!!!!!!!!
 
 */
 
@@ -31,7 +36,7 @@ namespace DozzMaiMalApi.Manager
 
         #region IManager Implementation
 
-        public void Add(IMalListEntity iMalEntity)
+        public async Task<string> Add(IMalListEntity iMalEntity)
         {
             // If the user is authenticated
             if (malClient.User.IsAuthenticated)
@@ -46,22 +51,28 @@ namespace DozzMaiMalApi.Manager
                     string queryString = ManagerUtility.GenerateQueryString(anime.ID, xmlStrBuilder);
                     byte[] strBytes = Encoding.UTF8.GetBytes(xmlStrBuilder.ToString().ToCharArray());   // Convert the data in string builder to char array
 
-                    malClient.WebClient.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-                    //malClient.WebClient.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-                    //malClient.WebClient.Encoding = Encoding.UTF8;
+                    // Upload data : // CAUSES HTTP BAD REQUEST !! SHOULD BE CORRECTED! \\ ==> CORRECTED BY USING HTTP-GET INSTEAD
+                    var resp = await malClient.HttpClient.GetStreamAsync(queryString);
 
-                    // Upload data : // CAUSES HTTP BAD REQUEST !! SHOULD BE CORRECTED!
-                    malClient.WebClient.UploadData(queryString, "POST", strBytes);
+                    // Get response string
+                    var reader = new StreamReader(resp);
+                    var respString = reader.ReadToEnd();
+
+                    // Return response string
+                    return respString;
                 }
             }
+
+
+            return "Failed!";
         }
 
-        public void Delete(IMalListEntity iMalEntity)
+        public Task<string> Delete(IMalListEntity iMalEntity)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(IMalListEntity iMalEntity)
+        public Task<string> Update(IMalListEntity iMalEntity)
         {
             throw new NotImplementedException();
         }

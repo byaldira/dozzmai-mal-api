@@ -21,8 +21,8 @@ namespace DozzMaiMalApi.Manager
 {
     public interface IManager
     {
-        void Add(IMalListEntity iMalEntity);
-        void Update(IMalListEntity iMalEntity);
-        void Delete(IMalListEntity iMalEntity);
+        Task<string> Add(IMalListEntity iMalEntity);
+        Task<string> Update(IMalListEntity iMalEntity);
+        Task<string> Delete(IMalListEntity iMalEntity);
     }
 }

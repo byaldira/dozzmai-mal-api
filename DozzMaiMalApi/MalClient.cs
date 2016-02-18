@@ -3,8 +3,10 @@ using DozzMaiMalApi.Manager;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -16,11 +18,12 @@ using System.Xml;
         
         // Update Description \\    // Update Date \\   // Updater (Use github or mal user name) \\
 
-    -> File and class created code added    <-> 17.02.2016 : 00.12 +02.00 <-> Lolerji
-    -> AnimeQuery method added              <-> 17.02.2016 : 00.26 +02.00 <-> Lolerji
-    -> GetAnimeEntry method added           <-> 17.02.2016 : 00.26 +02.00 <-> Lolerji
-    -> StringToQueryParameter method added  <-> 17.02.2016 : 00.26 +02.00 <-> Lolerji
-    -> AnimeListManager is added to client  <-> 17.02.2016 : 17.31 +02.00 <-> Lolerji
+    -> File and class created code added                <-> 17.02.2016 : 00.12 +02.00   <-> Lolerji
+    -> AnimeQuery method added                          <-> 17.02.2016 : 00.26 +02.00   <-> Lolerji
+    -> GetAnimeEntry method added                       <-> 17.02.2016 : 00.26 +02.00   <-> Lolerji
+    -> StringToQueryParameter method added              <-> 17.02.2016 : 00.26 +02.00   <-> Lolerji
+    -> AnimeListManager is added to client              <-> 17.02.2016 : 17.31 +02.00   <-> Lolerji
+    -> Migrating the from web client to HttpClient      <-> 18.02.2016 : 08.30 +02.00   <-> Lolerji
 
 */
 
@@ -29,17 +32,17 @@ namespace DozzMaiMalApi
 {
     public class MalClient
     {
-        private readonly WebClient webClient;
+        private readonly HttpClient httpClient;
         private MALUser user;
         private AnimeListManager animeListManager;
 
         public MalClient()
         {
             // Initialize web client
-            webClient = new WebClient();
+            httpClient = new HttpClient();
 
             // Initialize user
-            user = new MALUser(webClient);
+            user = new MALUser(this);
 
             // Initialize managers
             animeListManager = new AnimeListManager(this);
@@ -54,19 +57,21 @@ namespace DozzMaiMalApi
 
 
 
-        public IEnumerable<MALAnime> AnimeQuery(string str)
+        public async Task<IEnumerable<MALAnime>> AnimeQuery(string str)
         {
             try
             {
                 // Generate anime query string
                 string param = StringToQueryParameter(str);
-                string queryString = "http://myanimelist.net/api/anime/search.xml?q=" + param;
+                string requestUrl = "http://myanimelist.net/api/anime/search.xml?q=" + param;
 
-                string xml = webClient.DownloadString(queryString);
+                // Await get response
+                var response = await httpClient.GetAsync(requestUrl, HttpCompletionOption.ResponseContentRead);
+                var resString = await response.Content.ReadAsStringAsync();
 
                 // Create xml document
                 var document = new XmlDocument();
-                document.LoadXml(xml);      // Read the xml data from the string
+                document.LoadXml(resString);      // Read the xml data from the string
 
                 // DEBUG!!!
                 // Get the root node in the xml
@@ -172,7 +177,7 @@ namespace DozzMaiMalApi
 
         private string StringToQueryParameter(string param)
         {
-            return param.Replace(' ', '+');
+            return param.ToLower().Replace(' ', '+');
         }
 
         #endregion
@@ -193,9 +198,9 @@ namespace DozzMaiMalApi
             get { return animeListManager; }
         }
 
-        internal WebClient WebClient
+        internal HttpClient HttpClient
         {
-            get { return webClient; }
+            get { return httpClient; }
         }
 
         #endregion
