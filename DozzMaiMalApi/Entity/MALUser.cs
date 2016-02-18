@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,10 +15,11 @@ using System.Threading.Tasks;
         
         // Update Description \\    // Update Date \\   // Updater (Use github or mal user name) \\
 
-    -> File and class created code added    <-> 17.02.2016 : 00.12 +02.00 <-> Lolerji
-    -> New constructor                      <-> 17.02.2016 : 00.26 +02.00 <-> Lolerji
-    -> Authenyticate method is now public   <-> 17.02.2016 : 00.26 +02.00 <-> Lolerji
-    -> Setters added to UN/PW properties    <-> 17.02.2016 : 00.26 +02.00 <-> Lolerji
+    -> File and class created code added            <-> 17.02.2016 : 00.12 +02.00   <-> Lolerji
+    -> New constructor                              <-> 17.02.2016 : 00.26 +02.00   <-> Lolerji
+    -> Authenyticate method is now public           <-> 17.02.2016 : 00.26 +02.00   <-> Lolerji
+    -> Setters added to UN/PW properties            <-> 17.02.2016 : 00.26 +02.00   <-> Lolerji
+    -> Migrating from WebClient to HttpClient       <-> 18.02.2016 : 08.32 +02.00   <-> Lolerji
 
 */
 
@@ -25,7 +28,7 @@ namespace DozzMaiMalApi.Entity
 {
     public class MALUser
     {
-        private readonly WebClient webClient;
+        private readonly MalClient malClient;
         private readonly string verificationUrl;
         private string userName;
         private string password;
@@ -48,7 +51,7 @@ namespace DozzMaiMalApi.Entity
             // Assign verification url
             verificationUrl = "http://myanimelist.net/api/account/verify_credentials.xml";
 
-            webClient = client as WebClient;
+            malClient = client as MalClient;
         }
 
         /// <summary>
@@ -67,7 +70,7 @@ namespace DozzMaiMalApi.Entity
             // Assign verification url
             verificationUrl = "http://myanimelist.net/api/account/verify_credentials.xml";
 
-            webClient = client as WebClient;
+            malClient = client as MalClient;
             AuthenticateUser();     // Authenticate user
         }
 
@@ -75,7 +78,7 @@ namespace DozzMaiMalApi.Entity
         /// <summary>
         /// Authenticates the user using the given credentials
         /// </summary>
-        public void AuthenticateUser()
+        public async void AuthenticateUser()
         {
             // Convert credentials to base 64 string
             byte[] bytes = Encoding.UTF8.GetBytes(userName + ":" + password);
@@ -84,8 +87,10 @@ namespace DozzMaiMalApi.Entity
             try
             {
                 // Add credentials to the header
-                webClient.Headers[HttpRequestHeader.Authorization] = "Basic " + credentials;
-                var result = webClient.DownloadString(verificationUrl);     // Try to get user data
+                malClient.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", credentials);
+
+                // Get result
+                var result = await malClient.HttpClient.GetAsync(verificationUrl, HttpCompletionOption.ResponseHeadersRead);
 
                 // DEBUG : Write user data
                 Debug.WriteLine("UserData: " + result);

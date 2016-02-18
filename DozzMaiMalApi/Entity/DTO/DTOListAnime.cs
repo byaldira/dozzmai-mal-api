@@ -21,6 +21,11 @@ namespace DozzMaiMalApi.Entity.DTO
 {
     public class DTOListAnime : IMalListEntity
     {
+        public DTOListAnime()
+        {
+            Type = "Anime";
+        }
+
         public int ID { get; set; }
 
         public int Episode { get; set; }
@@ -31,9 +36,9 @@ namespace DozzMaiMalApi.Entity.DTO
 
         public string Comments { get; set; }
 
-        public DateTime DateFinished { get; set; }
+        public string DateFinished { get; set; }
 
-        public DateTime DateStarted { get; set; }
+        public string DateStarted { get; set; }
 
         public int Downloaded { get; set; }
 

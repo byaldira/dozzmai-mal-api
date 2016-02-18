@@ -34,8 +34,8 @@ namespace DozzMaiMalApi.Entity.Essentials
         // Status
         int Status { get; set; }
 
-        DateTime DateStarted { get; set; }
-        DateTime DateFinished { get; set; }
+        string DateStarted { get; set; }
+        string DateFinished { get; set; }
 
         int Priority { get; set; }
         int EnableDisscussion { get; set; }

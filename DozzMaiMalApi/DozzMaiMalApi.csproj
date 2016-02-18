@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2FBA4D22-97F0-41E8-8958-2A7D9A97AC59}</ProjectGuid>
+    <ProjectGuid>{31DCF77B-700A-4025-B0CB-0BFF34045C18}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DozzMaiMalApi</RootNamespace>
@@ -42,17 +42,16 @@
   <ItemGroup>
     <Compile Include="Entity\DTO\DTOListAnime.cs" />
     <Compile Include="Entity\Essentials\IMalListEntity.cs" />
-    <Compile Include="Entity\MALAnime.cs" />
-    <Compile Include="MalClient.cs" />
     <Compile Include="Entity\Essentials\MALEnumerations.cs" />
+    <Compile Include="Entity\MALAnime.cs" />
     <Compile Include="Entity\MALUser.cs" />
+    <Compile Include="Exceptions\VerficationFailedException.cs" />
+    <Compile Include="MalClient.cs" />
     <Compile Include="Manager\AnimeListManager.cs" />
     <Compile Include="Manager\IManager.cs" />
     <Compile Include="Manager\ManagerUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Exceptions\VerficationFailedException.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
