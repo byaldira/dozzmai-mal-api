@@ -6,21 +6,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("DozzMaiMalApi")]
-<<<<<<< HEAD
-[assembly: AssemblyDescription(".NET mal api")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("DozzMai Group")]
-[assembly: AssemblyProduct("DozzMai MyAnimeList API")]
-[assembly: AssemblyCopyright("DozzMai Group")]
-[assembly: AssemblyTrademark("FreeWare")]
-=======
-[assembly: AssemblyDescription(".NET mal api")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("DozzMai Group")]
-[assembly: AssemblyProduct("DozzMai MyAnimeList API")]
-[assembly: AssemblyCopyright("DozzMai Group")]
-[assembly: AssemblyTrademark("FreeWare")]
->>>>>>> development
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("DozzMaiMalApi")]
+[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -29,11 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-<<<<<<< HEAD
-[assembly: Guid("6901D9CD-9131-4ABB-AEFB-3ACDDC139DF7")]
-=======
-[assembly: Guid("6901D9CD-9131-4ABB-AEFB-3ACDDC139DF7")]
->>>>>>> development
+[assembly: Guid("31dcf77b-700a-4025-b0cb-0bff34045c18")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -42,13 +29,8 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-<<<<<<< HEAD
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-=======
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
->>>>>>> development

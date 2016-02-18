@@ -1,18 +1,10 @@
-<<<<<<< HEAD
-<?xml version="1.0" encoding="utf-8"?>
-=======
 ﻿<?xml version="1.0" encoding="utf-8"?>
->>>>>>> development
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-<<<<<<< HEAD
-    <ProjectGuid>2fba4d22-97f0-41e8-8958-2a7d9a97ac59</ProjectGuid>
-=======
-    <ProjectGuid>{2FBA4D22-97F0-41E8-8958-2A7D9A97AC59}</ProjectGuid>
->>>>>>> development
+    <ProjectGuid>{31DCF77B-700A-4025-B0CB-0BFF34045C18}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DozzMaiMalApi</RootNamespace>
@@ -38,27 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <Reference Include="System"/>
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="Microsoft.CSharp"/>
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Net.Http"/>
-    
-    <Reference Include="System.Xml"/>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Class1.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-=======
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -71,18 +42,16 @@
   <ItemGroup>
     <Compile Include="Entity\DTO\DTOListAnime.cs" />
     <Compile Include="Entity\Essentials\IMalListEntity.cs" />
-    <Compile Include="Entity\MALAnime.cs" />
-    <Compile Include="MalClient.cs" />
     <Compile Include="Entity\Essentials\MALEnumerations.cs" />
+    <Compile Include="Entity\MALAnime.cs" />
     <Compile Include="Entity\MALUser.cs" />
+    <Compile Include="Exceptions\VerficationFailedException.cs" />
+    <Compile Include="MalClient.cs" />
     <Compile Include="Manager\AnimeListManager.cs" />
     <Compile Include="Manager\IManager.cs" />
     <Compile Include="Manager\ManagerUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Exceptions\VerficationFailedException.cs" />
   </ItemGroup>
-  <ItemGroup />
->>>>>>> development
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -91,9 +60,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-<<<<<<< HEAD
-
- </Project>
-=======
 </Project>
->>>>>>> development
