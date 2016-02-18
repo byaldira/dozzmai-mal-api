@@ -17,6 +17,7 @@ using System.Xml;
         // Update Description \\    // Update Date \\   // Updater (Use github or mal user name) \\
 
     -> File and class created code added    <-> 17.02.2016 : 17.32 +02.00 <-> Lolerji
+    -> Query method created                 <-> 18.02.2016 : 19.56 +02.00 <-> Lolerji
 
 */
 
@@ -73,6 +74,17 @@ namespace DozzMaiMalApi.Manager
 
             // Return null if exceptions occur...
             return null;
+        }
+
+        public static async Task<string> Query(string queryString, MalClient client)
+        {
+            var resp = await client.HttpClient.GetStreamAsync(queryString);
+
+            // Get response string
+            var reader = new StreamReader(resp);
+            var respString = reader.ReadToEnd();
+
+            return respString;
         }
 
         public static string GenerateQueryString(int id, StringBuilder xmlData)

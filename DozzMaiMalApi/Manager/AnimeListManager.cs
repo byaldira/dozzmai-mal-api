@@ -52,11 +52,7 @@ namespace DozzMaiMalApi.Manager
                     byte[] strBytes = Encoding.UTF8.GetBytes(xmlStrBuilder.ToString().ToCharArray());   // Convert the data in string builder to char array
 
                     // Upload data : // CAUSES HTTP BAD REQUEST !! SHOULD BE CORRECTED! \\ ==> CORRECTED BY USING HTTP-GET INSTEAD
-                    var resp = await malClient.HttpClient.GetStreamAsync(queryString);
-
-                    // Get response string
-                    var reader = new StreamReader(resp);
-                    var respString = reader.ReadToEnd();
+                    var respString = await ManagerUtility.Query(queryString, malClient);
 
                     // Return response string
                     return respString;
