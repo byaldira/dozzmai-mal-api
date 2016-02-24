@@ -20,6 +20,8 @@ using System.IO;
     -> Bugfix in AddAnime method! Method now fully      <-> 17.02.2016 : 17.52 +02.00 <-> Lolerji
        fully functional... API Document is wrong!
        use Http GET not Http POST!!!!!!!!!!!!!!!!
+    -> Update Anime method added and Unnecessary byte[] <-> 24.02.2016 : 20.45 +02.00 <-> Lolerji
+       has been removed...
 
 */
 
@@ -44,33 +46,60 @@ namespace DozzMaiMalApi.Manager
                 // Get anime data as xml
                 var xmlStrBuilder = ManagerUtility.GenerateXMLData(iMalEntity);
 
-                // If the user is authenicated
-                if (malClient.User.IsAuthenticated)
-                {
-                    var anime = iMalEntity as DTOListAnime;
-                    string queryString = ManagerUtility.GenerateQueryString(anime.ID, xmlStrBuilder);
-                    byte[] strBytes = Encoding.UTF8.GetBytes(xmlStrBuilder.ToString().ToCharArray());   // Convert the data in string builder to char array
+                var anime = iMalEntity as DTOListAnime;
+                string queryString = ManagerUtility.GenerateQueryString(anime.ID, xmlStrBuilder, Common.ApiMethods.Add);
 
-                    // Upload data : // CAUSES HTTP BAD REQUEST !! SHOULD BE CORRECTED! \\ ==> CORRECTED BY USING HTTP-GET INSTEAD
-                    var respString = await ManagerUtility.Query(queryString, malClient);
+                // Upload data
+                var respString = await ManagerUtility.Query(queryString, malClient);
 
-                    // Return response string
-                    return respString;
-                }
+                // Return response string
+                return respString;
             }
 
 
             return "Failed!";
         }
 
-        public Task<string> Delete(IMalListEntity iMalEntity)
+        public async Task<string> Update(IMalListEntity iMalEntity)
         {
-            throw new NotImplementedException();
+            if (malClient.User.IsAuthenticated)
+            {
+                // Get anime data as xml
+                var xmlStrBuilder = ManagerUtility.GenerateXMLData(iMalEntity);
+
+                var anime = iMalEntity as DTOListAnime;
+                string queryString = ManagerUtility.GenerateQueryString(anime.ID, xmlStrBuilder, Common.ApiMethods.Update);
+
+                // Upload data
+                var respString = await ManagerUtility.Query(queryString, malClient);
+
+                // Return response string
+                return respString;
+            }
+
+            // Else return error response
+            return "Failed!";
         }
 
-        public Task<string> Update(IMalListEntity iMalEntity)
+        public async Task<string> Delete(IMalListEntity iMalEntity)
         {
-            throw new NotImplementedException();
+            if (malClient.User.IsAuthenticated)
+            {
+                // Get anime data as xml
+                var xmlStrBuilder = ManagerUtility.GenerateXMLData(iMalEntity);
+
+                var anime = iMalEntity as DTOListAnime;
+                string queryString = ManagerUtility.GenerateQueryString(anime.ID, xmlStrBuilder, Common.ApiMethods.Delete);
+
+                // Upload data
+                var respString = await ManagerUtility.Query(queryString, malClient);
+
+                // Return response string
+                return respString;
+            }
+
+            // Else return error response
+            return "Failed!";
         }
 
         #endregion
