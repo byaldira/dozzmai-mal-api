@@ -17,6 +17,11 @@ using System.Xml;
         // Update Description \\    // Update Date \\   // Updater (Use github or mal user name) \\
 
     -> File and class created code added    <-> 17.02.2016 : 17.32 +02.00 <-> Lolerji
+    -> Query method created                 <-> 18.02.2016 : 19.56 +02.00 <-> Lolerji
+    -> Generate Query string method updated <-> 24.02.2016 : 20.52 +02.00 <-> Lolerji
+       The method can now update, add
+       and delete anime data to/from
+       user's list
 
 */
 
@@ -75,9 +80,23 @@ namespace DozzMaiMalApi.Manager
             return null;
         }
 
-        public static string GenerateQueryString(int id, StringBuilder xmlData)
+        public static async Task<string> Query(string queryString, MalClient client)
         {
-            var queryString = Uri.EscapeUriString($"http://myanimelist.net/api/animelist/add/{id}.xml?data={xmlData}");
+            var resp = await client.HttpClient.GetStreamAsync(queryString);
+
+            // Get response string
+            var reader = new StreamReader(resp);
+            var respString = reader.ReadToEnd();
+
+            return respString;
+        }
+
+        public static string GenerateQueryString(int id, StringBuilder xmlData, Common.ApiMethods apiMethod)
+        {
+            var method = apiMethod.ToString().ToLower();
+            var queryString = Uri.EscapeUriString(apiMethod != Common.ApiMethods.Delete ?
+                                                    $"http://myanimelist.net/api/animelist/{method}/{id}.xml?data={xmlData}"
+                                                    : $"http://myanimelist.net/api/animelist/{method}/{id}.xml");
             return queryString;
         }
     }

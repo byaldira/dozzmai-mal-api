@@ -66,8 +66,9 @@ namespace DozzMaiMalApi
                 string requestUrl = "http://myanimelist.net/api/anime/search.xml?q=" + param;
 
                 // Await get response
-                var response = await httpClient.GetAsync(requestUrl, HttpCompletionOption.ResponseContentRead);
-                var resString = await response.Content.ReadAsStringAsync();
+                //var response = await httpClient.GetAsync(requestUrl, HttpCompletionOption.ResponseContentRead);
+                //var resString = await response.Content.ReadAsStringAsync();
+                var resString = await ManagerUtility.Query(requestUrl, this);
 
                 // Create xml document
                 var document = new XmlDocument();
