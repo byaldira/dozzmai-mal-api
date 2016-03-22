@@ -20,6 +20,9 @@ namespace DozzMaiMalApi.Entity.Essentials
 {
     public interface IMalListEntity
     {
+        // Everrything must have an ID!!
+        int ID { get; set; }
+
         // Anime or Manga, Right??
         string Type { get; set; }
 

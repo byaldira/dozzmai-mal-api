@@ -22,6 +22,9 @@ using System.IO;
        use Http GET not Http POST!!!!!!!!!!!!!!!!
     -> Update Anime method added and Unnecessary byte[] <-> 24.02.2016 : 20.45 +02.00 <-> Lolerji
        has been removed...
+    -> Add, Update, Delete Anime methods have been      <-> 22.03.2016 : 17.11 +02.00 <-> Lolerji
+       updated, they now use the MALQuery classes for 
+       managing the queries
 
 */
 
@@ -38,19 +41,27 @@ namespace DozzMaiMalApi.Manager
 
         #region IManager Implementation
 
+        public async Task<string> GetAnimeList()
+        {
+            if (malClient.User.IsAuthenticated)
+            {
+                
+            }
+
+            return null;
+        }
+
         public async Task<string> Add(IMalListEntity iMalEntity)
         {
             // If the user is authenticated
             if (malClient.User.IsAuthenticated)
             {
-                // Get anime data as xml
-                var xmlStrBuilder = ManagerUtility.GenerateXMLData(iMalEntity);
+                // Create query
+                var addQuery = new Common.MALAddQuery(malClient)
+                { IMalEntity = iMalEntity };                    // Assign mal entity
 
-                var anime = iMalEntity as DTOListAnime;
-                string queryString = ManagerUtility.GenerateQueryString(anime.ID, xmlStrBuilder, Common.ApiMethods.Add);
-
-                // Upload data
-                var respString = await ManagerUtility.Query(queryString, malClient);
+                // Execute query
+                var respString = await addQuery.Query();
 
                 // Return response string
                 return respString;
@@ -64,14 +75,12 @@ namespace DozzMaiMalApi.Manager
         {
             if (malClient.User.IsAuthenticated)
             {
-                // Get anime data as xml
-                var xmlStrBuilder = ManagerUtility.GenerateXMLData(iMalEntity);
+                // Create query
+                var updateQuery = new Common.MALUpdateQuery(malClient)
+                { IMalEntity = iMalEntity };        // Assign mal entity
 
-                var anime = iMalEntity as DTOListAnime;
-                string queryString = ManagerUtility.GenerateQueryString(anime.ID, xmlStrBuilder, Common.ApiMethods.Update);
-
-                // Upload data
-                var respString = await ManagerUtility.Query(queryString, malClient);
+                // Execute query
+                var respString = await updateQuery.Query();
 
                 // Return response string
                 return respString;
@@ -85,14 +94,12 @@ namespace DozzMaiMalApi.Manager
         {
             if (malClient.User.IsAuthenticated)
             {
-                // Get anime data as xml
-                var xmlStrBuilder = ManagerUtility.GenerateXMLData(iMalEntity);
+                // Create query
+                var deleteQuery = new Common.MALDeleteQuery(malClient)
+                { IMalEntity = iMalEntity };        // Assign mal entity
 
-                var anime = iMalEntity as DTOListAnime;
-                string queryString = ManagerUtility.GenerateQueryString(anime.ID, xmlStrBuilder, Common.ApiMethods.Delete);
-
-                // Upload data
-                var respString = await ManagerUtility.Query(queryString, malClient);
+                // Execute query
+                var respString = await deleteQuery.Query();
 
                 // Return response string
                 return respString;

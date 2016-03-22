@@ -21,6 +21,7 @@ namespace DozzMaiMalApi.Manager.Common
     {
         Add = 0,
         Update = 1,
-        Delete = 2
+        Delete = 2,
+        Get = 3
     }
 }

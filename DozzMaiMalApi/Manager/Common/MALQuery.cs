@@ -1,5 +1,4 @@
 ﻿using DozzMaiMalApi.Entity.DTO;
-using DozzMaiMalApi.Entity.Essentials;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,33 +8,35 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-
-/*
-    
-    UPDATES MADE:
-        
-        // Update Description \\    // Update Date \\   // Updater (Use github or mal user name) \\
-
-    -> File and class created code added    <-> 17.02.2016 : 17.32 +02.00 <-> Lolerji
-    -> Query method created                 <-> 18.02.2016 : 19.56 +02.00 <-> Lolerji
-    -> Generate Query string method updated <-> 24.02.2016 : 20.52 +02.00 <-> Lolerji
-       The method can now update, add
-       and delete anime data to/from
-       user's list
-
-*/
-
-
-namespace DozzMaiMalApi.Manager
+namespace DozzMaiMalApi.Manager.Common
 {
-    [Obsolete("This class's functionality has been replaced by the MALQuery classes. Use the query class of interest instead of using this class")]
-    public static class ManagerUtility
+    public class MALQuery
     {
-        [Obsolete("This method has been depraced! Use the GenerateXMLData method of MALQuery objects instead", false)]
-        public static StringBuilder GenerateXMLData(IMalListEntity iMalEntity)
+        private Entity.Essentials.IMalListEntity iMalEntity;
+        private MalClient client;
+        private string queryString;
+
+        public MALQuery(MalClient malClient)
+        {
+            queryString = "http://myanimelist.net/";
+            client = malClient;
+        }
+
+        public virtual async Task<string> Query()
+        {
+            var stream = await client.HttpClient.GetStreamAsync(QueryString);
+
+            // Get response string
+            var reader = new StreamReader(stream);
+            var respString = reader.ReadToEnd();
+
+            return respString;
+        }
+
+        public StringBuilder GenerateXMLData()
         {
             // Convert the interface object to a dto anime object
-            var anime = iMalEntity as DTOListAnime;
+            var anime = IMalEntity as DTOListAnime;
 
             // Here we should convert the anime data to xml fromat to
             // dispatch to myanimelist, MAL only accepts xml format data <.<
@@ -82,29 +83,26 @@ namespace DozzMaiMalApi.Manager
             return null;
         }
 
-        [Obsolete("This method has been deprecated! Use MALQuery classes and their query methods instead", false)]
-        public static async Task<string> Query(string queryString, MalClient client)
+
+        public MalClient MalClient
         {
-            var resp = await client.HttpClient.GetStreamAsync(queryString);
-
-            // Get response string
-            var reader = new StreamReader(resp);
-            var respString = reader.ReadToEnd();
-
-            return respString;
+            get { return client; }
+            protected set { client = value; }            
         }
 
-        // Generate query string methoduna get anime list methodunu uygula
-        [Obsolete("This method has been deprecated! Use MALQuery derived classes (MALAddQuery, MALUpdateQuery... etc.) instead.",false)]
-        public static string GenerateQueryString(int id, StringBuilder xmlData, Common.ApiMethods apiMethod)
+        public string QueryString
         {
-            var method = apiMethod.ToString().ToLower();
-            var queryString = Uri.EscapeUriString(apiMethod == Common.ApiMethods.Get ?
-                                                        $"http://myanimelist.net/animelist/lolerji"
-                                                        : apiMethod != Common.ApiMethods.Delete ?
-                                                                $"http://myanimelist.net/api/animelist/{method}/{id}.xml?data={xmlData}"
-                                                                : $"http://myanimelist.net/api/animelist/{method}/{id}.xml");
-            return queryString;
+            get { return queryString; }
+            protected set { queryString = value; }
+        }
+        
+        /// <summary>
+        /// Get or set the iMalEntity object for the query
+        /// </summary>
+        public Entity.Essentials.IMalListEntity IMalEntity
+        {
+            get { return iMalEntity; }
+            set { iMalEntity = value; }
         }
     }
 }

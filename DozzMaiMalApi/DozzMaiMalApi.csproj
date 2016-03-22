@@ -49,6 +49,10 @@
     <Compile Include="MalClient.cs" />
     <Compile Include="Manager\AnimeListManager.cs" />
     <Compile Include="Manager\Common\ApiMethods.cs" />
+    <Compile Include="Manager\Common\MALAddQuery.cs" />
+    <Compile Include="Manager\Common\MALDeleteQuery.cs" />
+    <Compile Include="Manager\Common\MALQuery.cs" />
+    <Compile Include="Manager\Common\MALUpdateQuery.cs" />
     <Compile Include="Manager\IManager.cs" />
     <Compile Include="Manager\ManagerUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
