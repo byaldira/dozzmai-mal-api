@@ -40,12 +40,17 @@ namespace DozzMaiMalApi.Manager
         }
 
         #region IManager Implementation
+        
 
         public async Task<string> GetAnimeList()
         {
             if (malClient.User.IsAuthenticated)
             {
-                
+                // Create query
+                var getQuery = new Common.MALGetQuery(malClient);
+
+                // Return response
+                return await getQuery.Query();
             }
 
             return null;
@@ -60,11 +65,8 @@ namespace DozzMaiMalApi.Manager
                 var addQuery = new Common.MALAddQuery(malClient)
                 { IMalEntity = iMalEntity };                    // Assign mal entity
 
-                // Execute query
-                var respString = await addQuery.Query();
-
-                // Return response string
-                return respString;
+                // Return response
+                return await addQuery.Query();
             }
 
 
@@ -79,11 +81,8 @@ namespace DozzMaiMalApi.Manager
                 var updateQuery = new Common.MALUpdateQuery(malClient)
                 { IMalEntity = iMalEntity };        // Assign mal entity
 
-                // Execute query
-                var respString = await updateQuery.Query();
-
                 // Return response string
-                return respString;
+                return await updateQuery.Query();
             }
 
             // Else return error response
@@ -98,11 +97,8 @@ namespace DozzMaiMalApi.Manager
                 var deleteQuery = new Common.MALDeleteQuery(malClient)
                 { IMalEntity = iMalEntity };        // Assign mal entity
 
-                // Execute query
-                var respString = await deleteQuery.Query();
-
                 // Return response string
-                return respString;
+                return await deleteQuery.Query();
             }
 
             // Else return error response
