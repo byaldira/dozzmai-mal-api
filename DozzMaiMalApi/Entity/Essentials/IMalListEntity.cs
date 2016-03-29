@@ -20,34 +20,20 @@ namespace DozzMaiMalApi.Entity.Essentials
 {
     public interface IMalListEntity
     {
-        // Everrything must have an ID!!
         int ID { get; set; }
-
-        // Anime or Manga, Right??
+        string Name { get; set; }
         string Type { get; set; }
-
-        // Downloaded eps/chaps
         int Downloaded { get; set; }
-
-        // Times rewatched - rereead
         int TimesRewRer { get; set; } 
-
         int Score { get; set; }
-
-        // Status
         int Status { get; set; }
-
         string DateStarted { get; set; }
         string DateFinished { get; set; }
-
         int Priority { get; set; }
         int EnableDisscussion { get; set; }
         int EnableRewRer { get; set; }
         int RewRerValue { get; set; }
-
-        // Fansub group / Scan group
         string Group { get; set; }
-
         string Comments { get; set; }
         string Tags { get; set; }
     }

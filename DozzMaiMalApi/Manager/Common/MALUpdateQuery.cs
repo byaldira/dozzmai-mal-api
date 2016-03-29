@@ -8,9 +8,10 @@ namespace DozzMaiMalApi.Manager.Common
 {
     public class MALUpdateQuery : MALQuery
     {
-        public MALUpdateQuery(MalClient malClient)
-            : base(malClient)
+        public MALUpdateQuery(MalClient malClient, Entity.Essentials.MALType type)
+            : base(malClient, type)
         { }
+
 
         public override async Task<string> Query()
         {
@@ -23,7 +24,7 @@ namespace DozzMaiMalApi.Manager.Common
 
             // Generate xml data and query string
             var xmlData = GenerateXMLData();
-            QueryString = Uri.EscapeUriString($"http://myanimelist.net/api/animelist/update/{IMalEntity.ID}.xml?data={xmlData}");
+            QueryString = Uri.EscapeUriString($"http://myanimelist.net/api/{QueryType.ToString().ToLower()}list/update/{IMalEntity.ID}.xml?data={xmlData}");
 
             // Return the result of the query
             return await base.Query();

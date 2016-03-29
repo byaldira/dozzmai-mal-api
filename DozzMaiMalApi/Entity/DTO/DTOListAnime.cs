@@ -28,6 +28,8 @@ namespace DozzMaiMalApi.Entity.DTO
 
         public int ID { get; set; }
 
+        public string Name { get; set; }
+
         public int Episode { get; set; }
 
         public int StorageType { get; set; }

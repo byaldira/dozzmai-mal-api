@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,19 +13,32 @@ namespace DozzMaiMalApi.Manager.Common
     {
         private string userName;
 
-        public MALGetQuery(MalClient malClient)
-            : base(malClient)
+
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------- //
+        //                                                                      METHODS                                                                         //
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+
+        public MALGetQuery(MalClient malClient, Entity.Essentials.MALType type)
+            : base(malClient, type)
         { userName = malClient.User.UserName; }
 
-        public MALGetQuery(MalClient malClient, string uName)
-            : base(malClient)
+
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+
+        public MALGetQuery(MalClient malClient, Entity.Essentials.MALType type, string uName)
+            : base(malClient, type)
         { userName = uName; }
+
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------- //
+
 
         // This method is not complete, complete the code that converts the JSON list to a usable list!!!
         public async override Task<string> Query()
         {
             // Generate query string
-            QueryString = Uri.EscapeUriString($"http://myanimelist.net/animelist/{userName}");
+            QueryString = Uri.EscapeUriString($"http://myanimelist.net/{QueryType.ToString().ToLower()}list/{userName}");
             
             // Get response string asyncronously
             string respString = await base.Query();
@@ -33,29 +49,29 @@ namespace DozzMaiMalApi.Manager.Common
 
             // Get JSON formatted data
             var table = htmlDocument.DocumentNode.SelectSingleNode("//*[@id='list-container']/div[3]/div//table/@data-items");
-            string dataItems = table.Attributes.AttributesWithName("data-items").First().Value;
-
-            dynamic animeList = GetListData(dataItems);
-
-            string data = string.Empty;
-            foreach (var anime in animeList)
-            {
-                data += anime.anime_title + ", "
-                        + anime.anime_url + ", "
-                        + anime.anime_image_path + ", "
-                        + anime.is_added_to_list + ", "
-                        + anime.anime_airing_status + ", "
-                        + anime.num_watched_episodes + ", "
-                        + anime.anime_num_episodes + ", "
-                        + ";";
-            }
-
-            return data;
+            string dataItems = table.Attributes.AttributesWithName("data-items").First().Value.Replace("&quot;", "'");
+            
+            // Return anime list json
+            return GetListData(dataItems);
         }
+        
 
-        private dynamic GetListData(string dataItems)
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+
+        private string GetListData(string dataItems)
         {
-            return string.Empty;
+            var memStream = new MemoryStream(Encoding.UTF8.GetBytes(dataItems));
+
+            // Create a json text reader and read the hson data as an array
+            var jsonTextReader = new JsonTextReader(new StreamReader(memStream));
+            var jArray = JArray.Load(jsonTextReader);
+
+            var jObject = jArray;
+
+            string animeList = jObject.ToString();
+
+            return animeList;
         }
     }
 }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DozzMaiMalApi
 {
-    public class VerficationFailedException : Exception
+    public class AuthenticationFailed : Exception
     {
         private string message;
 
-        public VerficationFailedException(string msg)
+        public AuthenticationFailed(string msg)
         {
             message = msg;
         }

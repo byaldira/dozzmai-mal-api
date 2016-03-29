@@ -8,9 +8,10 @@ namespace DozzMaiMalApi.Manager.Common
 {
     public class MALDeleteQuery : MALQuery
     {
-        public MALDeleteQuery(MalClient malClient)
-            : base(malClient)
+        public MALDeleteQuery(MalClient malClient, Entity.Essentials.MALType type)
+            : base(malClient, type)
         { }
+
 
         public override async Task<string> Query()
         {
@@ -18,11 +19,10 @@ namespace DozzMaiMalApi.Manager.Common
             if (IMalEntity == null)
             {
                 throw new Exception("A MyAnimList entity object is required for this query!!");
-
             }
 
             // Generate query string
-            QueryString = Uri.EscapeUriString($"http://myanimelist.net/api/animelist/delete/{IMalEntity.ID}.xml");
+            QueryString = Uri.EscapeUriString($"http://myanimelist.net/api/{QueryType.ToString().ToLower()}list/delete/{IMalEntity.ID}.xml");
 
             // Return the result of the query
             return await base.Query();

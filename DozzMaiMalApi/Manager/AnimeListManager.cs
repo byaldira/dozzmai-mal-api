@@ -9,6 +9,7 @@ using System.Xml;
 using System.Net;
 using System.Net.Http;
 using System.IO;
+using Newtonsoft.Json.Linq;
 
 /*
     
@@ -38,23 +39,34 @@ namespace DozzMaiMalApi.Manager
         {
             malClient = client;
         }
-
-        #region IManager Implementation
         
 
-        public async Task<string> GetAnimeList()
+        // -----------------------------------------------------------------------------------------------------------------------------------------------------//
+        //                                                                      METHODS                                                                         //
+        // -----------------------------------------------------------------------------------------------------------------------------------------------------//
+
+
+        public async Task<object> GetAnimeList()
         {
             if (malClient.User.IsAuthenticated)
             {
                 // Create query
-                var getQuery = new Common.MALGetQuery(malClient);
+                var getQuery = new Common.MALGetQuery(malClient, MALType.Anime);
+                
+                var animeListJson = await getQuery.Query();     // Get anime list as a json string
+                var jArray = JArray.Parse(animeListJson);       // Parse the json string into a JSON Array
 
-                // Return response
-                return await getQuery.Query();
+                // Populate anime list
+                var animeList = new List<JSONAnime>();
+                jArray.ToList().ForEach(anime => animeList.Add(anime.ToObject<JSONAnime>()));
+
+                // Return anime list
+                return animeList;
             }
-
+            
             return null;
         }
+
 
         public async Task<string> Add(IMalListEntity iMalEntity)
         {
@@ -62,7 +74,7 @@ namespace DozzMaiMalApi.Manager
             if (malClient.User.IsAuthenticated)
             {
                 // Create query
-                var addQuery = new Common.MALAddQuery(malClient)
+                var addQuery = new Common.MALAddQuery(malClient, MALType.Anime)
                 { IMalEntity = iMalEntity };                    // Assign mal entity
 
                 // Return response
@@ -73,12 +85,13 @@ namespace DozzMaiMalApi.Manager
             return "Failed!";
         }
 
+
         public async Task<string> Update(IMalListEntity iMalEntity)
         {
             if (malClient.User.IsAuthenticated)
             {
                 // Create query
-                var updateQuery = new Common.MALUpdateQuery(malClient)
+                var updateQuery = new Common.MALUpdateQuery(malClient, MALType.Anime)
                 { IMalEntity = iMalEntity };        // Assign mal entity
 
                 // Return response string
@@ -89,22 +102,21 @@ namespace DozzMaiMalApi.Manager
             return "Failed!";
         }
 
+
         public async Task<string> Delete(IMalListEntity iMalEntity)
         {
             if (malClient.User.IsAuthenticated)
             {
                 // Create query
-                var deleteQuery = new Common.MALDeleteQuery(malClient)
+                var deleteQuery = new Common.MALDeleteQuery(malClient, MALType.Anime)
                 { IMalEntity = iMalEntity };        // Assign mal entity
 
                 // Return response string
-                return await deleteQuery.Query();
+                return await deleteQuery.Query() as string;
             }
 
             // Else return error response
             return "Failed!";
         }
-
-        #endregion
     }
 }

@@ -35,9 +35,10 @@ namespace DozzMaiMalApi.Entity
         private int? userID;
         private bool isAuthenticated;
 
-
-
-        #region Methods
+        // -----------------------------------------------------------------------------------------------------------------------------------------------------//
+        //                                                                          METHODS                                                                     //
+        // -----------------------------------------------------------------------------------------------------------------------------------------------------//
+        
 
         /// <summary>
         /// Instantiates the MALUser class
@@ -54,6 +55,9 @@ namespace DozzMaiMalApi.Entity
             malClient = client as MalClient;
         }
 
+
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------- //
+
         /// <summary>
         /// Instantiates the MALUser class
         /// </summary>
@@ -62,6 +66,7 @@ namespace DozzMaiMalApi.Entity
         /// <param name="client">Web Client object that will hadle the request</param>
         public MALUser(string uName, string pw, object client)
         {
+            // Initialize fields
             userName = uName;
             password = pw;
             userID = null;
@@ -75,10 +80,12 @@ namespace DozzMaiMalApi.Entity
         }
 
 
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------- //
+
         /// <summary>
         /// Authenticates the user using the given credentials
         /// </summary>
-        public async void AuthenticateUser()
+        public void AuthenticateUser()
         {
             // Convert credentials to base 64 string
             byte[] bytes = Encoding.UTF8.GetBytes(userName + ":" + password);
@@ -90,7 +97,7 @@ namespace DozzMaiMalApi.Entity
                 malClient.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", credentials);
 
                 // Get result
-                var result = await malClient.HttpClient.GetAsync(verificationUrl, HttpCompletionOption.ResponseHeadersRead);
+                var result = malClient.HttpClient.GetAsync(verificationUrl, HttpCompletionOption.ResponseHeadersRead).Result;
 
                 // DEBUG : Write user data
                 Debug.WriteLine("UserData: " + result);
@@ -99,16 +106,15 @@ namespace DozzMaiMalApi.Entity
             }
             catch (Exception ex)
             {
-                string msg = "Could not verify user: " + userName + ", Please make sure your credentials are correct\nException: " + ex.Message;
-                throw new VerficationFailedException(msg);
+                string msg = "Could not authenticate user: " + userName + ", Please make sure your credentials are correct\nException: " + ex.Message;
+                throw new AuthenticationFailed(msg);
             }
         }
 
-        #endregion
-
-
-
-        #region Properties
+        // -----------------------------------------------------------------------------------------------------------------------------------------------------//
+        //                                                                          PROPERTIES                                                                  //
+        // -----------------------------------------------------------------------------------------------------------------------------------------------------//
+        
 
         /// <summary>
         /// Get the username of the current user
@@ -138,12 +144,13 @@ namespace DozzMaiMalApi.Entity
             set { password = value; }
         }
 
+        /// <summary>
+        /// Get the user id
+        /// </summary>
         public int? UserID
         {
             get { return userID; }
-            set { userID = value; }
+            protected set { userID = value; }
         }
-
-        #endregion
     }
 }
