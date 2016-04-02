@@ -35,10 +35,53 @@ namespace DozzMaiMalApi.Entity
         private int? userID;
         private bool isAuthenticated;
 
+
+        // -----------------------------------------------------------------------------------------------------------------------------------------------------//
+        //                                                                          PROPERTIES                                                                  //
+        // -----------------------------------------------------------------------------------------------------------------------------------------------------//
+
+
+        /// <summary>
+        /// Get the username of the current user
+        /// </summary>
+        public string UserName
+        {
+            get { return userName; }
+            set { userName = value; }
+        }
+
+
+        /// <summary>
+        /// Get a boolean value indicating if the user is verified
+        /// </summary>
+        public bool IsAuthenticated
+        {
+            get { return isAuthenticated; }
+        }
+
+
+        /// <summary>
+        /// Get the password of the current user (Protected)
+        /// </summary>
+        public string Password
+        {
+            get { return password; }
+            set { password = value; }
+        }
+
+        /// <summary>
+        /// Get the user id
+        /// </summary>
+        public int? UserID
+        {
+            get { return userID; }
+            protected set { userID = value; }
+        }
+
         // -----------------------------------------------------------------------------------------------------------------------------------------------------//
         //                                                                          METHODS                                                                     //
         // -----------------------------------------------------------------------------------------------------------------------------------------------------//
-        
+
 
         /// <summary>
         /// Instantiates the MALUser class
@@ -109,48 +152,6 @@ namespace DozzMaiMalApi.Entity
                 string msg = "Could not authenticate user: " + userName + ", Please make sure your credentials are correct\nException: " + ex.Message;
                 throw new AuthenticationFailed(msg);
             }
-        }
-
-        // -----------------------------------------------------------------------------------------------------------------------------------------------------//
-        //                                                                          PROPERTIES                                                                  //
-        // -----------------------------------------------------------------------------------------------------------------------------------------------------//
-        
-
-        /// <summary>
-        /// Get the username of the current user
-        /// </summary>
-        public string UserName
-        {
-            get { return userName; }
-            set { userName = value; }
-        }
-
-
-        /// <summary>
-        /// Get a boolean value indicating if the user is verified
-        /// </summary>
-        public bool IsAuthenticated
-        {
-            get { return isAuthenticated; }
-        }
-
-
-        /// <summary>
-        /// Get the password of the current user (Protected)
-        /// </summary>
-        public string Password
-        {
-            get { return password; }
-            set { password = value; }
-        }
-
-        /// <summary>
-        /// Get the user id
-        /// </summary>
-        public int? UserID
-        {
-            get { return userID; }
-            protected set { userID = value; }
         }
     }
 }

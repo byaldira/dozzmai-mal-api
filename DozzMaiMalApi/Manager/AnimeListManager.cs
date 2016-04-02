@@ -46,12 +46,12 @@ namespace DozzMaiMalApi.Manager
         // -----------------------------------------------------------------------------------------------------------------------------------------------------//
 
 
-        public async Task<object> GetAnimeList()
+        public async Task<object> GetAnimeList(int page = 0, MALListStatus status = MALListStatus.All)
         {
             if (malClient.User.IsAuthenticated)
             {
                 // Create query
-                var getQuery = new Common.MALGetQuery(malClient, MALType.Anime);
+                var getQuery = new Common.MALGetQuery(malClient, MALType.Anime, page * 300, status);
                 
                 var animeListJson = await getQuery.Query();     // Get anime list as a json string
                 var jArray = JArray.Parse(animeListJson);       // Parse the json string into a JSON Array

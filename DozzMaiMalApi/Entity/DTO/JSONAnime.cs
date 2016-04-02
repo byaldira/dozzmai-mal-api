@@ -19,7 +19,7 @@ namespace DozzMaiMalApi.Entity.DTO
         public string tags { get; set; }
 
         [JsonProperty("is_rewatching")]
-        public int is_rewatching { get; set; }
+        public int? is_rewatching { get; set; }
 
         [JsonProperty("num_watched_episodes")]
         public int num_watched_episodes { get; set; }

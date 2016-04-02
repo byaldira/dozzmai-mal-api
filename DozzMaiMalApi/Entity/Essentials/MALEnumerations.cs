@@ -22,6 +22,16 @@ namespace DozzMaiMalApi.Entity.Essentials
         Finished
     }
 
+    public enum MALListStatus
+    {
+        Watching = 1,
+        Completed = 2,
+        OnHold = 3,
+        Dropped = 4,
+        PlanToWatch = 6,
+        All = 7
+    }
+
     public enum MALType
     {
         Anime,

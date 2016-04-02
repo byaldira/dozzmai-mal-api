@@ -41,6 +41,36 @@ namespace DozzMaiMalApi
         private MALUser user;
         private AnimeListManager animeListManager;
 
+
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------- //
+        //                                                                      PROPERTIES                                                                      //
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------- //
+
+
+        private string StringToQueryParameter(string param)
+        {
+            return param.ToLower().Replace(' ', '+');
+        }
+
+
+        public MALUser User
+        {
+            get { return user; }
+        }
+
+
+        public AnimeListManager AnimeListManager
+        {
+            get { return animeListManager; }
+        }
+
+
+        internal HttpClient HttpClient
+        {
+            get { return httpClient; }
+        }
+
+
         // ---------------------------------------------------------------------------------------------------------------------------------------------------- //
         //                                                                      METHODS                                                                         //
         // ---------------------------------------------------------------------------------------------------------------------------------------------------- //
@@ -178,35 +208,6 @@ namespace DozzMaiMalApi
             }
 
             return anime;
-        }
-
-
-        // ---------------------------------------------------------------------------------------------------------------------------------------------------- //
-        //                                                                      PROPERTIES                                                                      //
-        // ---------------------------------------------------------------------------------------------------------------------------------------------------- //
-
-
-        private string StringToQueryParameter(string param)
-        {
-            return param.ToLower().Replace(' ', '+');
-        }
-
-        
-        public MALUser User
-        {
-            get { return user; }
-        }
-
-
-        public AnimeListManager AnimeListManager
-        {
-            get { return animeListManager; }
-        }
-
-
-        internal HttpClient HttpClient
-        {
-            get { return httpClient; }
         }
     }
 }

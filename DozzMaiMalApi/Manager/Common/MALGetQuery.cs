@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DozzMaiMalApi.Entity.Essentials;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace DozzMaiMalApi.Manager.Common
     public class MALGetQuery : MALQuery
     {
         private string userName;
+        private int dataOffset;
+        private MALListStatus queryStatus;
 
 
         // ---------------------------------------------------------------------------------------------------------------------------------------------------- //
@@ -19,17 +22,25 @@ namespace DozzMaiMalApi.Manager.Common
         // ---------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 
-        public MALGetQuery(MalClient malClient, Entity.Essentials.MALType type)
+        public MALGetQuery(MalClient malClient, Entity.Essentials.MALType type, int offset = 0, MALListStatus status = MALListStatus.All)
             : base(malClient, type)
-        { userName = malClient.User.UserName; }
+        {
+            userName = malClient.User.UserName;
+            dataOffset = offset;
+            queryStatus = status;
+        }
 
 
         // ---------------------------------------------------------------------------------------------------------------------------------------------------- //
 
 
-        public MALGetQuery(MalClient malClient, Entity.Essentials.MALType type, string uName)
+        public MALGetQuery(MalClient malClient, Entity.Essentials.MALType type, string uName, int offset = 0, MALListStatus status = MALListStatus.All)
             : base(malClient, type)
-        { userName = uName; }
+        {
+            userName = uName;
+            dataOffset = offset;
+            queryStatus = status;
+        }
 
         // ---------------------------------------------------------------------------------------------------------------------------------------------------- //
 
@@ -38,21 +49,13 @@ namespace DozzMaiMalApi.Manager.Common
         public async override Task<string> Query()
         {
             // Generate query string
-            QueryString = Uri.EscapeUriString($"http://myanimelist.net/{QueryType.ToString().ToLower()}list/{userName}");
+            QueryString = Uri.EscapeUriString($"http://myanimelist.net/{QueryType.ToString().ToLower()}list/{userName}/load.json?offset={dataOffset}&status={Convert.ToInt32(queryStatus)}");
             
             // Get response string asyncronously
             string respString = await base.Query();
-
-            // Load html document returned as a http response
-            HtmlAgilityPack.HtmlDocument htmlDocument = new HtmlAgilityPack.HtmlDocument();
-            htmlDocument.LoadHtml(respString);
-
-            // Get JSON formatted data
-            var table = htmlDocument.DocumentNode.SelectSingleNode("//*[@id='list-container']/div[3]/div//table/@data-items");
-            string dataItems = table.Attributes.AttributesWithName("data-items").First().Value.Replace("&quot;", "'");
             
             // Return anime list json
-            return GetListData(dataItems);
+            return GetListData(respString);
         }
         
 

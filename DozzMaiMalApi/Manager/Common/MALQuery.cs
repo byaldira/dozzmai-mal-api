@@ -18,6 +18,39 @@ namespace DozzMaiMalApi.Manager.Common
         private string queryString;
 
 
+        // -----------------------------------------------------------------------------------------------------------------------------------------------------//
+        //                                                                      PROPERTIES                                                                      //
+        // -----------------------------------------------------------------------------------------------------------------------------------------------------//
+
+
+        public MalClient MalClient
+        {
+            get { return client; }
+            protected set { client = value; }
+        }
+
+
+        public string QueryString
+        {
+            get { return queryString; }
+            protected set { queryString = value; }
+        }
+
+
+        public Entity.Essentials.MALType QueryType
+        {
+            get { return queryType; }
+            protected set { queryType = value; }
+        }
+
+
+        public Entity.Essentials.IMalListEntity IMalEntity
+        {
+            get { return iMalEntity; }
+            set { iMalEntity = value; }
+        }
+
+
         // ---------------------------------------------------------------------------------------------------------------------------------------------------- //
         //                                                                      METHODS                                                                         //
         // ---------------------------------------------------------------------------------------------------------------------------------------------------- //
@@ -97,39 +130,6 @@ namespace DozzMaiMalApi.Manager.Common
 
             // Return null if exceptions occur...
             return null;
-        }
-
-
-        // -----------------------------------------------------------------------------------------------------------------------------------------------------//
-        //                                                                      PROPERTIES                                                                      //
-        // -----------------------------------------------------------------------------------------------------------------------------------------------------//
-
-
-        public MalClient MalClient
-        {
-            get { return client; }
-            protected set { client = value; }            
-        }
-
-
-        public string QueryString
-        {
-            get { return queryString; }
-            protected set { queryString = value; }
-        }
-
-
-        public Entity.Essentials.MALType QueryType
-        {
-            get { return queryType; }
-            protected set { queryType = value; }
-        }
-        
-
-        public Entity.Essentials.IMalListEntity IMalEntity
-        {
-            get { return iMalEntity; }
-            set { iMalEntity = value; }
         }
     }
 }
